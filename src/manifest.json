@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "unicode-chrome-app",
+  "short_name": "unicode-chrome-app",
+  "description": "",
+  "version": "0.0.1",
+  "minimum_chrome_version": "44",
+
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  }
+}
