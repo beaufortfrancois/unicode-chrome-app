@@ -4,8 +4,8 @@
   "short_name": "unicode-chrome-app",
   "description": "",
   "version": "0.0.1",
-  "minimum_chrome_version": "44",
 
+  "permissions": ["clipboardWrite", "notifications", "storage"],
   "app": {
     "background": {
       "scripts": ["background.js"]

@@ -8,8 +8,10 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
   chrome.app.window.create(
     'index.html',
     {
-      id: 'mainWindow',
-      bounds: {width: 800, height: 600}
+      id: 'id',
+      hidden: true,
+      frame: {color: '#455A64'},
+      innerBounds: {minWidth: 360, width: 912, minHeight: 360, height: 513}
     }
   );
 });
