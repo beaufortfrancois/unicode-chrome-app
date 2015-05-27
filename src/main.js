@@ -8,6 +8,10 @@ xhr.onload = function() {
     else if (event.target.nodeName === 'H2')
       toggle(event);
   });
+  var headers = document.querySelectorAll('[data-block]');
+  for (var i = 0; i < headers.length; i++) {
+    headers[i].querySelector('h2').textContent += ' (' + headers[i].querySelectorAll('span').length + ')';
+  }
   chrome.storage.sync.get('lastBlock', function(data) {
     var lastBlock = data.lastBlock || 'Emoticons';
     var div = document.querySelector('[data-block="' + lastBlock + '"]');
