@@ -11,9 +11,6 @@
     border-radius: 2px;
     background-color: #344750;
 }
-::-webkit-scrollbar-corner{
-     background-color: transparent;
-}
 html, body {
     margin: 0 auto;
     height: 100%;
@@ -39,8 +36,9 @@ h2 {
     text-shadow: none;
     text-transform: uppercase;
     white-space: nowrap;
-    overflow: scroll;
+    padding-bottom: 12px;
     text-overflow: ellipsis;
+    overflow-x: hidden;
 }
 h2:hover {
     color: white;

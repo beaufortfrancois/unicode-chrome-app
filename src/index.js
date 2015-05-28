@@ -11,6 +11,7 @@ xhr.onload = function() {
   var headers = document.querySelectorAll('[data-block]');
   for (var i = 0; i < headers.length; i++) {
     headers[i].querySelector('h2').textContent += ' (' + headers[i].querySelectorAll('span').length + ')';
+    headers[i].querySelector('h2').title += 'Show more...';
   }
   chrome.storage.sync.get('lastBlock', function(data) {
     var lastBlock = data.lastBlock || 'Emoticons';
@@ -25,7 +26,10 @@ function toggle(event) {
   var block = event.target.parentNode;
   block.classList.toggle('hidden');
   if (!block.classList.contains('hidden')) {
+    event.target.title = 'Show less...';
     chrome.storage.sync.set({lastBlock: block.dataset.block});
+  } else {
+    event.target.title = 'Show more...';
   }
 }
 
