@@ -75,7 +75,11 @@ function updateFavorites() {
   });
 }
 
+var notificationTimeout;
+
 function showClipboardNotification(text) {
+  clearTimeout(notificationTimeout);
+
   var canvas = document.createElement('canvas');
   canvas.width = canvas.height = 80 * devicePixelRatio;
   var ctx = canvas.getContext('2d');
@@ -84,7 +88,7 @@ function showClipboardNotification(text) {
   ctx.textAlign = 'center';
   ctx.font = '40pt Roboto';
   ctx.fillStyle = 'white';
-  ctx.fillText(text, canvas.width / 2, canvas.height / 2 + (40 / devicePixelRatio));
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2 + 20);
 
   var options = {
     type: 'basic',
@@ -93,7 +97,11 @@ function showClipboardNotification(text) {
     iconUrl: canvas.toDataURL('image/png'),
   }
   chrome.notifications.clear('id', function() {
-    chrome.notifications.create('id', options);
+    chrome.notifications.create('id', options, function() {
+      notificationTimeout = setTimeout(function() {
+        chrome.notifications.clear('id');
+      }, 1e3);
+    });
   });
 }
 
