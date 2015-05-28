@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Unicode",
-  "description": "Get access to all Unicode characters and copy/paste them.",
-  "version": "0.0.1",
+  "description": "Access all Unicode characters to copy/paste them wherever you feel like.",
+  "version": "0.2",
 
   "icons": {
     "128": "128.png"
