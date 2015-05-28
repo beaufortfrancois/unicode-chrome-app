@@ -58,7 +58,7 @@ span {
     overflow: hidden;
     transition: all .1s;
 }
-span:hover {
+span[title]:hover {
     background-color: white;
     color: #000;
     text-shadow: none;
@@ -79,17 +79,21 @@ span:hover {
     }
 }
 #unicode {
-    margin-top: 70px;
-    box-shadow: inset 0 -1px 0 red;
+    position: fixed;
+    top: 70px;
+    width: 100%;
+    height: calc(100% - 70px);
+    overflow-y: scroll;
+    border-top: 1px solid #3C515A;
+    left: 0px;
 }
 #favorites {
     position: fixed;
     top: 0px;
     width: calc(100% - 10px);
-    background: linear-gradient(180deg, #455A64 90%, transparent 100%) no-repeat transparent;
+    background-color: #455A64;
     text-align: center;
-    padding-top: 12px;
-    height: 72px;
+    padding-top: 10px;
     left: 0px;
 }
   </style>

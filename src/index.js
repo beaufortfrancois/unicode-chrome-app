@@ -15,7 +15,7 @@ xhr.onload = function() {
   chrome.storage.sync.get('lastBlock', function(data) {
     var lastBlock = data.lastBlock || 'Emoticons';
     var div = document.querySelector('[data-block="' + lastBlock + '"]');
-    div.scrollIntoView(false);
+    div.scrollIntoView();
     chrome.app.window.current().show();
   });
 }
@@ -60,8 +60,12 @@ function updateFavorites() {
   chrome.storage.sync.get('favorites', function(data) {
     var favorites = data.favorites || [];
     var favoritesHtml = '';
-    for (var i = 0; i < favorites.length; i++) {
-      favoritesHtml += '<span title="' + favorites[i].name + '">' + favorites[i].unicode + '</span>';
+    if (!favorites.length) {
+      favoritesHtml = '<span></span><span></span><span></span><span></span><span></span>';
+    } else {
+      for (var i = 0; i < favorites.length; i++) {
+        favoritesHtml += '<span title="' + favorites[i].name + '">' + favorites[i].unicode + '</span>';
+      }
     }
     document.querySelector('#favorites').innerHTML = favoritesHtml;
   });
