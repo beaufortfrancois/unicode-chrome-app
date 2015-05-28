@@ -1,10 +1,10 @@
 var xhr = new XMLHttpRequest();
-xhr.open('GET', 'unicodeData.html');
+xhr.open('GET', 'unicode.html');
 xhr.onload = function() {
   document.querySelector('#unicode').innerHTML = xhr.response;
   document.querySelector('#unicode').addEventListener('click', function(event) {
     if (event.target.nodeName === 'SPAN')
-      copyToClipboard(event);
+      copyToClipboard(event, true);
     else if (event.target.nodeName === 'H2')
       toggle(event);
   });
@@ -15,8 +15,7 @@ xhr.onload = function() {
   chrome.storage.sync.get('lastBlock', function(data) {
     var lastBlock = data.lastBlock || 'Emoticons';
     var div = document.querySelector('[data-block="' + lastBlock + '"]');
-    div.classList.toggle('hidden');
-    div.scrollIntoView();
+    div.scrollIntoView(false);
     chrome.app.window.current().show();
   });
 }
@@ -30,14 +29,21 @@ function toggle(event) {
   }
 }
 
-function copyToClipboard(event) {
+function copyToClipboard(event, store) {
+  chrome.storage.sync.set({lastBlock: event.target.parentNode.dataset.block});
+
   var buffer = document.createElement('textarea');
   document.body.appendChild(buffer);
   buffer.style.position = 'absolute'; // Hack: http://crbug.com/334062
   buffer.value = event.target.textContent;
   buffer.select();
   var result = document.execCommand('copy');
+  buffer.remove();
+
   if (result) {
+    showClipboardNotification(event.target.textContent);
+    if (!store)
+      return;
     chrome.storage.sync.get('favorites', function(data) {
       var favorites = data.favorites || [];
       if (favorites.length && favorites[0].unicode === event.target.textContent) {
@@ -47,9 +53,7 @@ function copyToClipboard(event) {
       favorites.length = Math.min(favorites.length, 5);
       chrome.storage.sync.set({favorites: favorites}, updateFavorites);
     });
-    showClipboardNotification(event.target.textContent);
   }
-  buffer.remove();
 }
 
 function updateFavorites() {
@@ -84,5 +88,10 @@ function showClipboardNotification(text) {
     chrome.notifications.create('id', options);
   });
 }
+
+document.querySelector('#favorites').addEventListener('click', function(event) {
+  if (event.target.nodeName === 'SPAN')
+    copyToClipboard(event, false);
+});
 
 updateFavorites();

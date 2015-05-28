@@ -5,11 +5,13 @@ import urllib.request
 
 UNICODE_DATA_URL = 'http://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt'
 UNICODE_BLOCKS_URL = 'http://www.unicode.org/Public/UCD/latest/ucd/Blocks.txt'
+MORE_INDEX = 12
 
 blocks_data = {}
 unicode_data_html = ''
 
 started_block = False
+index = 0
 
 with urllib.request.urlopen(UNICODE_BLOCKS_URL) as f:
     lines = f.read().decode('utf-8').split('\n')
@@ -28,14 +30,18 @@ with urllib.request.urlopen(UNICODE_DATA_URL) as f:
                 unicode_data_html += '</div>'
             unicode_data_html += '<div class="hidden" data-block="' + blocks_data[data[0]] + '">'
             started_block = True
+            index = 0
             unicode_data_html += '<h2>' + blocks_data[data[0]] + '</h2>'
         title = data[1]
         if title == '<control>':
             title = data[10]
         unicode_data_html += '<span title="' + title + ' - U+' + data[0] + '">&#x' + data[0] + '</span>'
+        index += 1
+        if index == MORE_INDEX:
+            unicode_data_html += '<div class="more"></div>'
 
 if started_block:
     unicode_data_html += '</div>'
 
-with open("unicodeData.html", "w") as f:
+with open("unicode.html", "w") as f:
     f.write(unicode_data_html)

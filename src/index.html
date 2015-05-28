@@ -1,13 +1,115 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>unicode-chrome-app</title>
-  <link rel="stylesheet" href="index.css">
+  <style>
+::-webkit-scrollbar{
+    z-index: 200;
+    width: 10px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb:vertical{
+    border-radius: 2px;
+    background-color: #344750;
+}
+::-webkit-scrollbar-corner{
+     background-color: transparent;
+}
+html, body {
+    margin: 0 auto;
+    height: 100%;
+    background: linear-gradient(180deg, #455A64 60%, #607D8B 100%) no-repeat #607D8B;
+    overflow-y: visible;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px #455A64;
+}
+#container {
+    margin: 0 auto;
+    max-width: 720px;
+}
+div[data-block] {
+    padding: 0 24px 12px 24px;
+    text-align: center;
+}
+h2 {
+    clear: left;
+    font-size: 14px;
+    color: rgba(255,255,255,.7);
+    padding-top: 12px;
+    margin: 0px;
+    text-shadow: 0 2px 0 #455A64;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: scroll;
+    text-overflow: ellipsis;
+}
+h2:hover {
+    color: white;
+    cursor: pointer;
+}
+span {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    text-align: center;
+    line-height: 48px;
+    margin: 3px;
+    border-radius: 50%;
+    box-shadow: 0 0 1px #607D8B;
+    overflow: hidden;
+    transition: all .1s;
+}
+span:hover {
+    background-color: white;
+    color: #000;
+    text-shadow: none;
+    box-shadow: 0 0 2px #344750, 0 0 20px #344750;
+    transform: scale(1.5);
+    font-size: 200%;
+    cursor: pointer;
+}
+.hidden span {
+    display: none;
+}
+.hidden span:nth-child(-n+11) {
+    display: inline-block;
+}
+@media screen and (min-width: 720px) {
+    .hidden span:nth-child(-n+13) {
+        display: inline-block;
+    }
+}
+.more {
+    background-color: rgba(255,255,255,.1);
+    width: 64px;
+    margin: 0 auto;
+    border-radius: 2px;
+    height: 6px;
+    margin-top: 8px;
+    display: none;
+}
+.hidden .more {
+    display: block;
+}
+#unicode {
+    margin-top: 70px;
+}
+#favorites {
+    position: fixed;
+    top: 0px;
+    width: calc(100% - 10px);
+    background: linear-gradient(180deg, #455A64 90%, transparent 100%) no-repeat transparent;
+    text-align: center;
+    padding-top: 12px;
+    height: 72px;
+    left: 0px;
+}
+  </style>
 </head>
-
 <body>
-  <div id="unicode"></div>
-  <div id="favorites"></div>
-  <script src="main.js"></script>
+  <div id="container">
+    <div id="unicode"></div>
+    <div id="favorites"></div>
+  </div>
+  <script src="index.js"></script>
 </body>
 </html>

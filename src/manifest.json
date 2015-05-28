@@ -5,6 +5,9 @@
   "description": "",
   "version": "0.0.1",
 
+  "icons": {
+    "128": "128.png"
+  },
   "permissions": ["clipboardWrite", "notifications", "storage"],
   "app": {
     "background": {
