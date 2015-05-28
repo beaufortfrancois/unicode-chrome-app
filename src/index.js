@@ -105,8 +105,61 @@ function showClipboardNotification(text) {
   });
 }
 
+var rafId;
+var search = document.querySelector('#search');
+var searchInput = document.querySelector('#search input');
+var closeSearchButton = document.querySelector('#search #closeSearch');
+
+function enableSearchMode() {
+  cancelAnimationFrame(rafId);
+  search.classList.toggle('expanded', true);
+  document.body.classList.toggle('search', true);
+  searchInput.focus();
+
+  var previous = document.querySelectorAll('.found');
+  for (var i = 0; i < previous.length; i++) {
+    previous[i].classList.toggle('found', false);
+  }
+}
+
+function disableSearchMode(event) {
+  document.body.classList.toggle('search', false);
+  search.classList.toggle('expanded', false);
+  searchInput.value = '';
+  event && event.stopPropagation();
+}
+
+window.addEventListener('keyup', function(event) {
+  if (event.keyCode == 191) {
+    enableSearchMode();
+  } else if (event.keyCode == 27) {
+    disableSearchMode();
+  } else {
+    enableSearchMode();
+    if (searchInput.value.length < 2) {
+      return;
+    }
+
+    rafId = requestAnimationFrame(function() {
+      var founds = document.querySelectorAll('#unicode span[title*="' + searchInput.value.toUpperCase() + '"]');
+      for (var i = 0; i < founds.length; i++) {
+        founds[i].classList.toggle('found', true);
+      }
+    }, 1e3);
+  }
+});
+
+search.addEventListener('click', function() {
+  if (!search.classList.contains('expanded')) {
+    enableSearchMode();
+  }
+});
+
+closeSearchButton.addEventListener('click', disableSearchMode);
+
 document.querySelector('#favorites').addEventListener('click', function(event) {
-  if (event.target.nodeName === 'SPAN')
+  if (event.target.nodeName === 'SPAN' && event.target.title &&
+    !document.querySelectorAll('.search').length)
     copyToClipboard(event, false);
 });
 
