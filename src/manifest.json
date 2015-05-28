@@ -1,8 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "unicode-chrome-app",
-  "short_name": "unicode-chrome-app",
-  "description": "",
+  "name": "Unicode",
+  "description": "Get access to all Unicode characters and copy/paste them.",
   "version": "0.0.1",
 
   "icons": {
