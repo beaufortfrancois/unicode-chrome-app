@@ -114,7 +114,6 @@ function enableSearchMode() {
   cancelAnimationFrame(rafId);
   search.classList.toggle('expanded', true);
   document.body.classList.toggle('search', true);
-  searchInput.focus();
 
   var previous = document.querySelectorAll('.found');
   for (var i = 0; i < previous.length; i++) {
@@ -129,6 +128,10 @@ function disableSearchMode(event) {
   event && event.stopPropagation();
 }
 
+window.addEventListener('keydown', function(event) {
+  searchInput.focus();
+});
+
 window.addEventListener('keyup', function(event) {
   if (event.keyCode == 191) {
     enableSearchMode();
@@ -136,7 +139,7 @@ window.addEventListener('keyup', function(event) {
     disableSearchMode();
   } else {
     enableSearchMode();
-    if (searchInput.value.length < 2) {
+    if (searchInput.value.length < 3) {
       return;
     }
 
