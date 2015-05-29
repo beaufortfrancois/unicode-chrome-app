@@ -111,44 +111,46 @@ var searchInput = document.querySelector('#search input');
 var closeSearchButton = document.querySelector('#search #closeSearch');
 
 function enableSearchMode() {
-  cancelAnimationFrame(rafId);
   search.classList.toggle('expanded', true);
   document.body.classList.toggle('search', true);
+  searchInput.focus();
 
   var previous = document.querySelectorAll('.found');
   for (var i = 0; i < previous.length; i++) {
     previous[i].classList.toggle('found', false);
   }
+  event && event.stopPropagation();
 }
 
 function disableSearchMode(event) {
   document.body.classList.toggle('search', false);
   search.classList.toggle('expanded', false);
   searchInput.value = '';
+  searchInput.blur();
   event && event.stopPropagation();
 }
 
-window.addEventListener('keydown', function(event) {
-  searchInput.focus();
-});
-
 window.addEventListener('keyup', function(event) {
+  cancelAnimationFrame(rafId);
   if (event.keyCode == 191) {
     enableSearchMode();
   } else if (event.keyCode == 27) {
     disableSearchMode();
   } else {
-    enableSearchMode();
-    if (searchInput.value.length < 3) {
+    if (searchInput != document.activeElement || searchInput.value.length < 3) {
       return;
     }
 
     rafId = requestAnimationFrame(function() {
+      var previous = document.querySelectorAll('.found');
+      for (var i = 0; i < previous.length; i++) {
+        previous[i].classList.toggle('found', false);
+      }
       var founds = document.querySelectorAll('#unicode span[title*="' + searchInput.value.toUpperCase() + '"]');
       for (var i = 0; i < founds.length; i++) {
         founds[i].classList.toggle('found', true);
       }
-    }, 1e3);
+    });
   }
 });
 
